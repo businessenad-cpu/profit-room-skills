@@ -1,0 +1,50 @@
+{
+  "skill_name": "yt-titles",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I'm making a video about using Claude Code to build a full SaaS app from scratch in one sitting",
+      "expected_output": "10-15 YouTube title options in 3 tiers, cross-referenced with channel performance data and competitor analysis",
+      "files": [],
+      "assertions": [
+        {"name": "title_count", "check": "between 10 and 15 title options"},
+        {"name": "tiered_structure", "check": "3 tiers present"},
+        {"name": "channel_data_referenced", "check": "mentions the user's actual channel videos or stats"},
+        {"name": "competitor_analysis", "check": "references competitor titles"},
+        {"name": "titles_under_60_chars", "check": ">=70% of titles under 60 characters"},
+        {"name": "reasoning_per_title", "check": "each title has rationale"},
+        {"name": "no_generic_filler", "check": "no Ultimate Guide / Complete Tutorial / Everything You Need"}
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "give me title ideas for a video showing how to connect Claude Code to your email and have it auto-respond to clients",
+      "expected_output": "10-15 YouTube title options in 3 tiers, with automation/integration angle, cross-referenced with channel data",
+      "files": [],
+      "assertions": [
+        {"name": "title_count", "check": "between 10 and 15 title options"},
+        {"name": "tiered_structure", "check": "3 tiers present"},
+        {"name": "channel_data_referenced", "check": "mentions the user's actual channel videos or stats"},
+        {"name": "competitor_analysis", "check": "references competitor titles"},
+        {"name": "titles_under_60_chars", "check": ">=70% of titles under 60 characters"},
+        {"name": "reasoning_per_title", "check": "each title has rationale"},
+        {"name": "no_generic_filler", "check": "no Ultimate Guide / Complete Tutorial / Everything You Need"}
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I need a title for my next video - it's about the new Claude Code hooks feature and how I'm using it to automate my entire development workflow",
+      "expected_output": "10-15 YouTube title options in 3 tiers, leveraging new feature announcement patterns from channel data",
+      "files": [],
+      "assertions": [
+        {"name": "title_count", "check": "between 10 and 15 title options"},
+        {"name": "tiered_structure", "check": "3 tiers present"},
+        {"name": "channel_data_referenced", "check": "mentions the user's actual channel videos or stats"},
+        {"name": "competitor_analysis", "check": "references competitor titles"},
+        {"name": "titles_under_60_chars", "check": ">=70% of titles under 60 characters"},
+        {"name": "reasoning_per_title", "check": "each title has rationale"},
+        {"name": "no_generic_filler", "check": "no Ultimate Guide / Complete Tutorial / Everything You Need"}
+      ]
+    }
+  ]
+}

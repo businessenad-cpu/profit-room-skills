@@ -1,0 +1,108 @@
+{
+  "name": "profit-room-skills",
+  "owner": {
+    "name": "Duncan Rogoff"
+  },
+  "metadata": {
+    "description": "Claude Code skills that help you build an offer, land your first customers, and make content that sells — for non-technical creators.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "money",
+      "source": "./",
+      "description": "Get paid: build an irresistible offer, price it, reach out, and close your first customers.",
+      "skills": [
+        "./skills/personalize",
+        "./skills/offer-builder",
+        "./skills/positioning-filter",
+        "./skills/pricing-calculator",
+        "./skills/productize-service",
+        "./skills/warm-outreach",
+        "./skills/dm-writer",
+        "./skills/first-customer-closer",
+        "./skills/objection-handler",
+        "./skills/proposal-generator",
+        "./skills/launch-plan",
+        "./skills/cold-outreach",
+        "./skills/money-model-audit"
+      ]
+    },
+    {
+      "name": "content",
+      "source": "./",
+      "description": "Write and repurpose content in your own voice: LinkedIn posts, carousels, lead magnets, guides, newsletters.",
+      "skills": [
+        "./skills/personalize",
+        "./skills/linkedin-post",
+        "./skills/linkedin-post-batch",
+        "./skills/daily-post-ideas",
+        "./skills/daily-digest",
+        "./skills/carousel-creator",
+        "./skills/lead-magnet",
+        "./skills/digital-guide-builder",
+        "./skills/content-prompt",
+        "./skills/hooks",
+        "./skills/dissect",
+        "./skills/viral-format-miner",
+        "./skills/substack",
+        "./skills/content-engine"
+      ]
+    },
+    {
+      "name": "youtube",
+      "source": "./",
+      "description": "Grow a channel: titles, thumbnails, intros, descriptions, outlines, search, and shorts.",
+      "skills": [
+        "./skills/personalize",
+        "./skills/yt-titles",
+        "./skills/yt-thumbnail",
+        "./skills/yt-description",
+        "./skills/yt-intro",
+        "./skills/outlines",
+        "./skills/yt-search",
+        "./skills/shortify"
+      ]
+    },
+    {
+      "name": "media",
+      "source": "./",
+      "description": "Generate images and video: product and SaaS ads, infographics, faceless videos, viral remixes, avatar reels.",
+      "skills": [
+        "./skills/personalize",
+        "./skills/ad-studio",
+        "./skills/saas-ad-studio",
+        "./skills/infographic",
+        "./skills/faceless-video",
+        "./skills/viral-remix",
+        "./skills/ig-channel-remix",
+        "./skills/higgsfield-generate",
+        "./skills/yap",
+        "./skills/youtube-clipping-agent"
+      ]
+    },
+    {
+      "name": "design",
+      "source": "./",
+      "description": "Build things that convert: landing pages, brand sites, educational pages, and pro-grade UI.",
+      "skills": [
+        "./skills/frontend-design",
+        "./skills/ui-ux-pro-max",
+        "./skills/web-design-guidelines",
+        "./skills/edu-site",
+        "./skills/build-site"
+      ]
+    },
+    {
+      "name": "utility",
+      "source": "./",
+      "description": "Sharpen the workflow: brainstorm, extract clean web content, take meeting notes, and sanitize projects for sharing.",
+      "skills": [
+        "./skills/brainstorming",
+        "./skills/defuddle",
+        "./skills/meeting-notes",
+        "./skills/sanitize-project"
+      ]
+    }
+  ]
+}

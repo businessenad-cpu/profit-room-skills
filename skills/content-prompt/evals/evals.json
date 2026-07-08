@@ -1,0 +1,23 @@
+{
+  "skill_name": "content-prompt",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "give me something to talk about for a short video",
+      "expected_output": "One thought-provoking question rooted in a real moment from the user's own story, plus why-now context and a suggested angle. Punchy and specific.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I want to make a quick TikTok today, prompt me with something",
+      "expected_output": "One question that taps an active debate in the user's niche, formatted as a hook with a story seed, why-now, and angle sections.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "/content-prompt",
+      "expected_output": "One high-quality thought-provoking question relevant to the user's audience (from the brand profile), with a story seed, why-now, and angle sections. Should feel timely.",
+      "files": []
+    }
+  ]
+}

@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- SLOT: TITLE → "[TOPIC] // [CREATOR] // [YEAR]" -->
+  <title>TOPIC // CREATOR // YEAR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Oswald:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink-orange:        #E96A3C;
+      --ink-paper:         #E8DCC4;
+      --ink-charcoal:      #1C1B17;
+      --ink-bone:          #F2E9D6;
+      --ink-teal:          #5C8C95;
+      --ink-navy:          #1F2A3A;
+      --ink-amber:         #F0B24A;
+      --ink-orange-soft:   #F4A584;
+      --ink-paper-shadow:  #C9BDA0;
+
+      --font-display: 'Anton', 'Oswald', 'Impact', sans-serif;
+      --font-meta:    'JetBrains Mono', 'Space Mono', monospace;
+      --font-body:    'Inter', system-ui, sans-serif;
+
+      --space-xs:  4px;
+      --space-sm:  8px;
+      --space-md:  16px;
+      --space-lg:  32px;
+      --space-xl:  64px;
+      --space-2xl: 128px;
+    }
+
+    html { scroll-behavior: smooth; background: var(--ink-paper); }
+
+    body {
+      background: var(--ink-paper);
+      color: var(--ink-charcoal);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ── GRAIN OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      opacity: 0.12;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    /* ── PROGRESS BAR ── */
+    #progress {
+      position: fixed;
+      top: 0; left: 0;
+      width: 3px; height: 0%;
+      background: var(--ink-orange);
+      z-index: 9999;
+    }
+
+    /* ── LAYOUT ── */
+    .col { max-width: 820px; width: 100%; margin: 0 auto; padding: 0 2rem; position: relative; z-index: 2; }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--ink-orange);
+      color: var(--ink-paper);
+      position: relative;
+      overflow: hidden;
+      border-bottom: 2px solid var(--ink-charcoal);
+    }
+
+    /* Grain overlay on hero */
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      opacity: 0.12;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* 1. TICKER SCROLL — right-edge tape scrolls upward like a press feed */
+    @keyframes tickerScroll {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-50%); }
+    }
+
+    .hero-ticker {
+      position: absolute;
+      top: 0; right: 0;
+      width: 40px;
+      height: 100%;
+      background: var(--ink-bone);
+      color: var(--ink-charcoal);
+      writing-mode: vertical-rl;
+      font-family: var(--font-meta);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      z-index: 2;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    /* Ticker inner — doubled content so scroll loops seamlessly */
+    .hero-ticker-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: tickerScroll 22s linear infinite;
+    }
+
+    .hero-inner {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 5rem 2rem 4rem;
+      max-width: 820px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-tag {
+      font-family: var(--font-meta);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-paper);
+      opacity: 0.8;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 7rem);
+      line-height: 0.88;
+      text-transform: uppercase;
+      color: var(--ink-paper);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero-title .hl  { color: var(--ink-charcoal); }
+    .hero-title .hl2 { color: var(--ink-bone); }
+
+    .hero-sub {
+      font-family: var(--font-meta);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-paper);
+      opacity: 0.75;
+      margin-top: 2rem;
+      max-width: 520px;
+      line-height: 1.7;
+    }
+
+    .hero-meta {
+      margin-top: 3.5rem;
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+    }
+
+    .hero-stat-num {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--ink-paper);
+    }
+
+    .hero-stat-label {
+      font-family: var(--font-meta);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-paper);
+      opacity: 0.6;
+      margin-top: 0.2rem;
+    }
+
+    .hero-divider {
+      width: 1px;
+      height: 40px;
+      background: var(--ink-paper);
+      opacity: 0.3;
+    }
+
+    .scroll-cue {
+      position: absolute;
+      bottom: 3rem;
+      left: 2rem;
+      font-family: var(--font-meta);
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      color: var(--ink-paper);
+      opacity: 0.5;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      animation: fadeUp 0.8s ease forwards 2s;
+      opacity: 0;
+      z-index: 2;
+    }
+
+    /* 2. BOUNCING CHEVRON — replaces static line before scroll-cue */
+    @keyframes chevronBounce {
+      0%, 100% { transform: translateY(0);    opacity: 0.5; }
+      50%       { transform: translateY(5px);  opacity: 0.9; }
+    }
+
+    .scroll-cue::before {
+      content: '↓';
+      font-size: 14px;
+      line-height: 1;
+      width: auto;
+      height: auto;
+      background: none;
+      opacity: 0.5;
+      animation: chevronBounce 1.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    }
+
+    /* ── WHO IS SECTION ── */
+    .who-section { padding: 4rem 0 3rem; position: relative; z-index: 2; }
+
+    /* ── SECTION ── */
+    .section { padding: 5rem 0 4rem; position: relative; z-index: 2; border-top: 2px solid var(--ink-charcoal); }
+
+    /* ── SECTION THEMES ── */
+    .section--dark {
+      background: var(--ink-charcoal);
+      border-top-color: var(--ink-charcoal);
+    }
+    .section--dark .ch     { color: var(--ink-paper); }
+    .section--dark .ch-num { color: var(--ink-orange); }
+    .section--dark .ch-end { color: var(--ink-paper); opacity: 0.4; }
+    .section--dark .ch-rule { background: var(--ink-paper); opacity: 0.15; }
+    .section--dark .sh     { color: var(--ink-paper); }
+    .section--dark .sh em,
+    .section--dark .sh .cy { color: var(--ink-orange); }
+    .section--dark .bullets li { color: var(--ink-paper); }
+    .section--dark .bullets li strong { color: var(--ink-paper); }
+    .section--dark .bullets li:hover { background: rgba(233,106,60,0.12); }
+    .section--dark .pullout { background: rgba(232,220,196,0.07); border-left-color: var(--ink-orange); }
+    .section--dark .pullout p { color: var(--ink-paper); }
+    .section--dark .pullout p em { color: var(--ink-orange); }
+    .section--dark .img-frame { border-color: rgba(232,220,196,0.25); }
+    .section--dark .stat { background: var(--ink-navy); }
+
+    .section--orange {
+      background: var(--ink-orange);
+      border-top-color: var(--ink-charcoal);
+    }
+    .section--orange .ch     { color: var(--ink-charcoal); }
+    .section--orange .ch-num { color: var(--ink-charcoal); }
+    .section--orange .ch-end { color: var(--ink-charcoal); opacity: 0.5; }
+    .section--orange .ch-rule { background: var(--ink-charcoal); opacity: 0.2; }
+    .section--orange .sh     { color: var(--ink-paper); }
+    .section--orange .sh em,
+    .section--orange .sh .cy { color: var(--ink-charcoal); }
+    .section--orange .bullets li { color: var(--ink-charcoal); }
+    .section--orange .bullets li::before { color: var(--ink-orange); }
+    .section--orange .bullets li:hover { background: rgba(28,27,23,0.08); }
+    .section--orange .pullout { background: rgba(28,27,23,0.08); border-left-color: var(--ink-charcoal); }
+    .section--orange .pullout p { color: var(--ink-charcoal); }
+    .section--orange .img-frame { border-color: var(--ink-charcoal); }
+    .section--orange .cards { background: var(--ink-charcoal); border-color: var(--ink-charcoal); }
+    .section--orange .card  { background: var(--ink-bone); }
+    .section--orange .card:hover { background: var(--ink-paper); }
+    .section--orange .card-num   { color: var(--ink-charcoal); opacity: 0.5; }
+    .section--orange .card-title { color: var(--ink-orange); }
+    .section--orange .card-body  { color: var(--ink-charcoal); opacity: 0.85; }
+    .section--orange .statement  { background: var(--ink-charcoal); }
+
+    /* ── CONNECTORS (injected by JS) ── */
+    /* 3. INK DRIP — orange dot travels top → bottom down each connector line */
+    @keyframes inkDrip {
+      0%   { top: 0;    opacity: 0; }
+      8%   { opacity: 1; }
+      85%  { opacity: 1; }
+      100% { top: 100%; opacity: 0; }
+    }
+
+    .connector { display: flex; justify-content: center; align-items: stretch; height: 72px; position: relative; z-index: 2; }
+    .connector-line {
+      width: 2px;
+      background: var(--ink-paper-shadow);
+      opacity: 0.6;
+      position: relative;
+      overflow: visible;
+    }
+    .connector-line::after {
+      content: '';
+      position: absolute;
+      left: -5px;
+      top: 0;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--ink-orange);
+      animation: inkDrip 2.8s ease-in infinite;
+      animation-delay: calc(var(--drip-delay, 0) * 1s);
+    }
+
+    /* ── CHAPTER LABEL ── */
+    .ch {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      font-family: var(--font-meta);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-charcoal);
+    }
+
+    /* 4. STAMP PULSE — chapter number scales like a stamp being pressed */
+    @keyframes stampPulse {
+      0%, 100% { transform: scale(1);    opacity: 1; }
+      50%       { transform: scale(1.06); opacity: 0.85; }
+    }
+
+    .ch-num {
+      color: var(--ink-orange);
+      display: inline-block;
+      animation: stampPulse 3.5s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    }
+    .ch-rule { flex: 1; height: 1px; background: var(--ink-paper-shadow); opacity: 0.4; }
+    .ch-end { color: var(--ink-charcoal); opacity: 0.6; }
+
+    /* ── HEADING ── */
+    .sh {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.5vw, 3rem);
+      text-transform: uppercase;
+      line-height: 0.9;
+      letter-spacing: -0.01em;
+      color: var(--ink-charcoal);
+      margin-bottom: 2rem;
+    }
+
+    .sh em  { color: var(--ink-orange); font-style: normal; }
+    .sh .cy { color: var(--ink-orange); }
+
+    /* ── STATEMENT (OUTPUT box) ── */
+    .statement {
+      margin: 3rem 0;
+      padding: 2.5rem;
+      border: 2px solid var(--ink-charcoal);
+      background: var(--ink-charcoal);
+      position: relative;
+    }
+
+    .statement::before {
+      content: 'OUTPUT';
+      position: absolute;
+      top: 0; left: 1.5rem;
+      transform: translateY(-50%);
+      font-family: var(--font-meta);
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: var(--ink-orange);
+      background: var(--ink-charcoal);
+      padding: 0 0.5rem;
+    }
+
+    .statement-line {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3.5vw, 2.8rem);
+      line-height: 1.3;
+      color: var(--ink-paper);
+    }
+
+    .statement-line .dim    { color: var(--ink-paper); opacity: 0.5; }
+    .statement-line .accent { color: var(--ink-orange); }
+
+    /* ── PULLOUT ── */
+    .pullout {
+      margin: 2.5rem 0;
+      padding: 1.5rem 1.75rem;
+      border-left: 4px solid var(--ink-orange);
+      background: var(--ink-bone);
+    }
+
+    .pullout p {
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--ink-charcoal);
+    }
+
+    .pullout p em { color: var(--ink-orange); font-style: normal; }
+
+    /* ── BULLETS ── */
+    .bullets { list-style: none; margin-bottom: 2.5rem; display: flex; flex-direction: column; gap: 10px; }
+
+    .bullets li {
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      color: var(--ink-charcoal);
+      line-height: 1.7;
+      padding: 1rem 1rem 1rem 2.5rem;
+      border: 2px solid var(--ink-charcoal);
+      background: var(--ink-paper);
+      box-shadow: 2px 2px 0 0 var(--ink-charcoal);
+      transform: translate(3px, 3px);
+      position: relative;
+      transition: box-shadow 0.15s ease, transform 0.15s ease, background 0.15s ease;
+      cursor: default;
+    }
+
+    .bullets li::before {
+      content: '//';
+      position: absolute;
+      left: 0.75rem;
+      font-family: var(--font-meta);
+      font-size: 0.65rem;
+      color: var(--ink-orange);
+      top: 1.15rem;
+    }
+
+    .bullets li strong { color: var(--ink-charcoal); font-weight: 600; }
+
+    .bullets li:hover {
+      background: var(--ink-bone);
+      box-shadow: 7px 7px 0 0 var(--ink-charcoal);
+      transform: translate(0, 0);
+    }
+
+    .bullets li:hover::before { content: '→'; }
+
+    .bullets li:nth-child(odd)  { left: -32px; }
+    .bullets li:nth-child(even) { left:  32px; }
+
+    /* Dark section bullet overrides */
+    .section--dark .bullets li {
+      border-color: var(--ink-orange);
+      background: rgba(28,27,23,0.5);
+      box-shadow: 2px 2px 0 0 var(--ink-orange);
+      transform: translate(3px, 3px);
+      color: var(--ink-paper);
+    }
+    .section--dark .bullets li strong { color: var(--ink-paper); }
+    .section--dark .bullets li:hover  { background: var(--ink-paper); box-shadow: 7px 7px 0 0 var(--ink-orange); transform: translate(0, 0); }
+
+    /* Orange section bullet overrides */
+    .section--orange .bullets li {
+      border-color: var(--ink-charcoal);
+      background: rgba(233,106,60,0.18);
+      box-shadow: 2px 2px 0 0 var(--ink-charcoal);
+      transform: translate(3px, 3px);
+      color: var(--ink-charcoal);
+    }
+    .section--orange .bullets li::before { color: var(--ink-charcoal); }
+    .section--orange .bullets li:hover   { background: var(--ink-bone); box-shadow: 7px 7px 0 0 var(--ink-charcoal); transform: translate(0, 0); }
+
+    /* ── CARDS ── */
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+      margin: 2.5rem 0;
+      background: var(--ink-charcoal);
+      border: 2px solid var(--ink-charcoal);
+    }
+
+    .card {
+      background: var(--ink-orange);
+      padding: 1.75rem 1.75rem 1.5rem;
+      position: relative;
+      transition: box-shadow 0.15s ease, background 0.2s ease;
+    }
+
+    .card:hover { background: var(--ink-charcoal); }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--ink-paper);
+      transition: width 0.35s ease;
+    }
+
+    .card:hover::before { width: 100%; }
+
+    .card-num {
+      font-family: var(--font-meta);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ink-paper);
+      opacity: 0.7;
+      margin-bottom: 1rem;
+    }
+
+    .card-title {
+      font-family: var(--font-meta);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink-paper);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    .card-body {
+      font-family: var(--font-body);
+      font-size: 14px;
+      color: var(--ink-paper);
+      opacity: 0.9;
+      line-height: 1.65;
+      transition: opacity 0.2s ease;
+    }
+
+    .card:hover .card-body { opacity: 1; }
+
+    /* ── IMAGE ── */
+    .img-block { margin: 2.5rem 0; position: relative; }
+    .img-block + .img-block { margin-top: 4rem; }
+
+    .img-frame {
+      position: relative;
+      border: 2px solid var(--ink-charcoal);
+      overflow: hidden;
+    }
+
+    .img-inner { position: relative; }
+    .img-frame img { width: 100%; max-height: 420px; object-fit: cover; object-position: center top; display: block; }
+
+    .img-cap {
+      font-family: var(--font-meta);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-charcoal);
+      opacity: 0.6;
+      margin-top: 0.5rem;
+    }
+
+    /* ── STAT ── */
+    .stat {
+      margin: 2.5rem 0;
+      padding: 2.5rem;
+      border: 2px solid var(--ink-charcoal);
+      background: var(--ink-charcoal);
+      position: relative;
+    }
+
+    .stat::before {
+      content: 'SIGNAL';
+      position: absolute;
+      top: 0; left: 1.5rem;
+      transform: translateY(-50%);
+      font-family: var(--font-meta);
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: var(--ink-orange);
+      background: var(--ink-charcoal);
+      padding: 0 0.5rem;
+    }
+
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: clamp(3.8rem, 10vw, 8rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--ink-paper);
+    }
+
+    .stat-num .arrow { color: var(--ink-orange); }
+
+    .stat-label {
+      font-family: var(--font-meta);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      color: var(--ink-paper);
+      opacity: 0.6;
+      margin-top: 0.8rem;
+    }
+
+    /* ── SECTION FOOTER ── */
+    .sig {
+      font-family: var(--font-meta);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      color: var(--ink-charcoal);
+      opacity: 0.55;
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(28,27,23,0.15);
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .r {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .r.in { opacity: 1; transform: translateY(0); }
+    .r.d1 { transition-delay: 0.1s; }
+    .r.d2 { transition-delay: 0.22s; }
+
+    /* Per-container offset box-shadows — solid riso register offset */
+    .card      { box-shadow: 6px 6px 0 0 var(--ink-charcoal); }
+    .card:hover{ box-shadow: 2px 2px 0 0 var(--ink-charcoal); }
+    .pullout   { box-shadow: 6px 6px 0 0 var(--ink-charcoal); }
+    .stat      { box-shadow: 8px 8px 0 0 var(--ink-orange); }
+    .statement { box-shadow: 8px 8px 0 0 var(--ink-orange); }
+    .img-frame { box-shadow: 6px 6px 0 0 var(--ink-charcoal); }
+
+    .section--dark .card      { box-shadow: 6px 6px 0 0 var(--ink-orange); }
+    .section--dark .card:hover{ box-shadow: 2px 2px 0 0 var(--ink-orange); }
+    .section--dark .pullout   { box-shadow: 6px 6px 0 0 var(--ink-orange); }
+    .section--dark .img-frame { box-shadow: 6px 6px 0 0 var(--ink-orange); }
+    .section--dark .statement { box-shadow: 8px 8px 0 0 var(--ink-paper); }
+    .section--dark .stat      { box-shadow: 8px 8px 0 0 var(--ink-orange); }
+
+    .section--orange .card      { box-shadow: 6px 6px 0 0 var(--ink-charcoal); }
+    .section--orange .card:hover{ box-shadow: 2px 2px 0 0 var(--ink-charcoal); }
+    .section--orange .pullout   { box-shadow: 6px 6px 0 0 var(--ink-charcoal); }
+    .section--orange .img-frame { box-shadow: 6px 6px 0 0 var(--ink-charcoal); }
+    .section--orange .stat      { box-shadow: 8px 8px 0 0 var(--ink-charcoal); }
+
+    /* ── REGISTRATION DRIFT — hero title loads with charcoal/soft ghost that snaps ── */
+    @keyframes register {
+      0%   { text-shadow: -5px 3px 0 rgba(28,27,23,0.4), 5px -3px 0 rgba(244,165,132,0.5); letter-spacing: 0.04em; }
+      60%  { text-shadow: -2px 1px 0 rgba(28,27,23,0.15); letter-spacing: -0.015em; }
+      100% { text-shadow: none; letter-spacing: -0.02em; }
+    }
+
+    @keyframes registerIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes blink  { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .hero-tag, .hero-title, .hero-sub, .hero-meta { opacity: 0; animation: registerIn 0.6s ease forwards; }
+    .hero-tag   { animation-delay: 0.2s; }
+    .hero-title { animation-delay: 0.4s; animation-name: registerIn, register; animation-duration: 0.6s, 0.9s; animation-delay: 0.4s, 0.8s; animation-fill-mode: forwards, forwards; animation-timing-function: ease, cubic-bezier(0.16, 1, 0.3, 1); }
+    .hero-sub   { animation-delay: 0.7s; }
+    .hero-meta  { animation-delay: 1.0s; }
+
+    @media (max-width: 600px) {
+      .col { padding: 0 1.25rem; }
+      .section { padding: 4rem 0 3rem; }
+      .hero-inner { padding: 5rem 3rem 3rem 1.25rem; }
+      .hero-meta { flex-wrap: wrap; gap: 1.5rem; }
+      .cards { grid-template-columns: 1fr; }
+      .hero-ticker { width: 28px; font-size: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+
+<!-- ══════ HERO ══════ -->
+<!-- SLOT: Replace title lines, sub, and stats with real data -->
+<div class="hero">
+  <div class="hero-ticker">
+    <div class="hero-ticker-inner" aria-hidden="true">
+      <span>BUILD. SHIP. READ. · BUILD. SHIP. READ. · BUILD. SHIP. READ. · BUILD. SHIP. READ. · BUILD. SHIP. READ. · BUILD. SHIP. READ. ·&nbsp;</span>
+      <span>BUILD. SHIP. READ. · BUILD. SHIP. READ. · BUILD. SHIP. READ. · BUILD. SHIP. READ. · BUILD. SHIP. READ. · BUILD. SHIP. READ. ·&nbsp;</span>
+    </div>
+  </div>
+  <div class="hero-inner">
+    <p class="hero-tag"><!-- CREATOR --> &nbsp;&nbsp;·&nbsp;&nbsp; <!-- YEAR --> &nbsp;&nbsp;·&nbsp;&nbsp; PUBLIC</p>
+    <h1 class="hero-title">
+      <!-- LINE 1 --><br>
+      <!-- LINE 2 with <span class="hl">KEY WORD</span> --><br>
+      <!-- LINE 3 with <span class="hl2">KEY PHRASE.</span> -->
+    </h1>
+    <p class="hero-sub"><!-- One-line subhead: what it means and why you care --></p>
+    <div class="hero-meta">
+      <div class="hero-stat">
+        <div class="hero-stat-num"><!-- NUMBER --></div>
+        <div class="hero-stat-label"><!-- LABEL e.g. GITHUB STARS --></div>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><!-- NUMBER --></div>
+        <div class="hero-stat-label"><!-- LABEL --></div>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><!-- NUMBER --></div>
+        <div class="hero-stat-label"><!-- LABEL --></div>
+      </div>
+    </div>
+    <div class="scroll-cue">SCROLL TO READ</div>
+  </div>
+</div>
+
+
+<!-- ══════ WHO IS [COMPANY] ══════ -->
+<!-- SLOT: 3 bullets establishing credibility. Use logo SVG if available. -->
+<section class="who-section">
+  <div class="col">
+    <div class="r" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2.5rem;">
+      <!-- SLOT: Logo SVG with fill: var(--ink-orange) -->
+      <span style="font-family: var(--font-meta); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-paper-shadow);">WHO IS <!-- COMPANY NAME --></span>
+    </div>
+    <ul class="bullets r d1">
+      <li><!-- What they've built that matters --></li>
+      <li><!-- Their track record at the AI/tech intersection --></li>
+      <li><!-- "They don't ship X — they ship Y." closing line --></li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- ══════ INTRO ══════ -->
+<!-- SLOT: The launch announcement + value props -->
+<section class="section" style="padding: 4.5rem 0 3.5rem;">
+  <div class="col">
+    <p class="r" style="font-family: var(--font-display); font-size: clamp(1.4rem, 3vw, 2.4rem); text-transform: uppercase; color: var(--ink-charcoal); margin-bottom: 0.6rem; letter-spacing: 0.02em;">
+      THEY JUST LAUNCHED <span style="color: var(--ink-orange);"><!-- NAME -->.</span>
+    </p>
+    <p class="r" style="font-family: var(--font-meta); font-size: clamp(0.75rem, 1.5vw, 0.85rem); color: var(--ink-paper-shadow); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 2.5rem;">
+      A <span style="color: var(--ink-orange);"><!-- TYPE --></span> FOR <!-- USE CASE -->
+    </p>
+
+    <!-- SLOT: Screenshot or product image + repo link beneath it -->
+    <div class="img-block r d1">
+      <div class="img-frame"><div class="img-inner">
+        <img src="<!-- 01_screenshot.png -->" alt="<!-- alt -->">
+      </div></div>
+      <!-- SLOT: If GitHub repo, add link here. If no repo, remove this anchor. -->
+      <a href="<!-- https://github.com/org/repo -->" target="_blank" style="display: block; text-align: center; margin-top: 1rem; font-family: var(--font-meta); font-size: clamp(0.75rem, 1.4vw, 0.85rem); font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-orange); text-decoration: none; transition: opacity 0.2s ease;">
+        <!-- GITHUB.COM/ORG/REPO --> &nbsp;↗
+      </a>
+    </div>
+
+    <!-- SLOT: One plain-English bullet defining what it is -->
+    <ul class="bullets r d1" style="margin-bottom: 2rem;">
+      <li><!-- Plain-English one-liner of what it is --></li>
+    </ul>
+
+    <!-- SLOT: 4 value prop cards — non-developer language -->
+    <div class="cards r d1">
+      <div class="card">
+        <div class="card-num">01 / <!-- CATEGORY --></div>
+        <div class="card-title"><!-- Feature name --></div>
+        <div class="card-body"><!-- Value prop: what it means for them, outcome-first --></div>
+      </div>
+      <div class="card">
+        <div class="card-num">02 / <!-- CATEGORY --></div>
+        <div class="card-title"><!-- Feature name --></div>
+        <div class="card-body"><!-- Value prop --></div>
+      </div>
+      <div class="card">
+        <div class="card-num">03 / <!-- CATEGORY --></div>
+        <div class="card-title"><!-- Feature name --></div>
+        <div class="card-body"><!-- Value prop --></div>
+      </div>
+      <div class="card">
+        <div class="card-num">04 / <!-- CATEGORY --></div>
+        <div class="card-title"><!-- Feature name --></div>
+        <div class="card-body"><!-- Value prop --></div>
+      </div>
+    </div>
+
+    <!-- SLOT: Why this matters for the viewer right now -->
+    <ul class="bullets r d2">
+      <li><!-- "If you're [doing X] — this changes [Y]. The people who understand this now will be [Z]." --></li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- ══════ 01 — THE HOOK ══════ -->
+<section class="section">
+  <div class="col">
+    <div class="ch r">
+      <span class="ch-num">01 / THE HOOK</span>
+      <div class="ch-rule"></div>
+      <span class="ch-end">CONTEXT</span>
+    </div>
+
+    <!-- SLOT: Hook infographic -->
+    <div class="img-block r">
+      <div class="img-frame"><div class="img-inner">
+        <img src="<!-- 01b_hook_infographic.png -->" alt="<!-- alt -->">
+      </div></div>
+    </div>
+
+    <!-- SLOT: 3 bullets — why this is notable, timing, most people won't see it -->
+    <ul class="bullets r d1">
+      <li><!-- Why this matters: what it signals about the market --></li>
+      <li><!-- This isn't X. It's Y. The distinction that matters. --></li>
+      <li><!-- "Most people won't understand this for [timeframe]. You're watching this now." --></li>
+    </ul>
+
+    <!-- SLOT: Historical analogy or the reframe pullout -->
+    <div class="pullout r d2">
+      <p><!-- "The last time someone did [X] — it was [Y]. <em>For [Z].</em>" --></p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════ 02 — WHAT [X] ACTUALLY IS ══════ -->
+<section class="section">
+  <div class="col">
+    <div class="ch r">
+      <span class="ch-num">02 / WHAT <!-- NAME --> IS</span>
+      <div class="ch-rule"></div>
+      <span class="ch-end">DEFINITION</span>
+    </div>
+
+    <!-- SLOT: Plain-language heading connecting to something familiar -->
+    <h2 class="sh r"><!-- "A [type] for [familiar use case]" --><br><span class="cy"><!-- key phrase --></span></h2>
+
+    <!-- SLOT: System diagram — brain/hands or how-it-works infographic -->
+    <div class="img-block r d1">
+      <div class="img-frame"><div class="img-inner">
+        <img src="<!-- 02_system_diagram.png -->" alt="<!-- alt -->">
+      </div></div>
+    </div>
+
+    <!-- SLOT: 3 bullets — how it works, plain English, connected to tools they know -->
+    <ul class="bullets r">
+      <li><!-- Mechanism, plain English --></li>
+      <li><!-- Real-world examples they recognize --></li>
+      <li><!-- Connection to Claude Code skills / tools they already use --></li>
+    </ul>
+
+    <!-- SLOT: Skills/tools connection infographic -->
+    <div class="img-block r d1">
+      <div class="img-frame"><div class="img-inner">
+        <img src="<!-- 03_skills_connection.png -->" alt="<!-- alt -->">
+      </div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════ 03 — THE PROBLEM ══════ -->
+<section class="section">
+  <div class="col">
+    <div class="ch r">
+      <span class="ch-num">03 / THE PROBLEM</span>
+      <div class="ch-rule"></div>
+      <span class="ch-end">DIAGNOSTIC</span>
+    </div>
+
+    <!-- SLOT: Heading naming the failure state -->
+    <h2 class="sh r"><!-- "When [X] breaks / fails, [consequence]." --><br><em><!-- sub-clause --></em></h2>
+
+    <!-- SLOT: Before/after diagnostic infographic -->
+    <div class="img-block r d1">
+      <div class="img-frame"><div class="img-inner">
+        <img src="<!-- 04_problem_diagnostic.png -->" alt="<!-- alt -->">
+      </div></div>
+    </div>
+
+    <!-- SLOT: 4 bullets — specific failures of the current approach -->
+    <ul class="bullets r">
+      <li><!-- Failure 1: what breaks and what happens as a result --></li>
+      <li><!-- Failure 2 --></li>
+      <li><!-- Failure 3: the safety/trust failure --></li>
+      <li><!-- Failure 4: the manual intervention failure --></li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- ══════ 04 — THE SOLUTION ══════ -->
+<section class="section">
+  <div class="col">
+    <div class="ch r">
+      <span class="ch-num">04 / <!-- NAME -->'S SOLUTION</span>
+      <div class="ch-rule"></div>
+      <span class="ch-end">RESOLUTION</span>
+    </div>
+
+    <!-- SLOT: Heading — X fixes all N at the [level] level -->
+    <h2 class="sh r"><!-- "[X] fixes all [N] —" --><br><em><!-- "at the [level] level." --></em></h2>
+
+    <!-- SLOT: 3 bullets — one per problem solved, plain language -->
+    <ul class="bullets r">
+      <li><strong><!-- On [problem 1]: --></strong> <!-- How it fixes it --></li>
+      <li><strong><!-- On [problem 2]: --></strong> <!-- How it fixes it --></li>
+      <li><strong><!-- On [problem 3]: --></strong> <!-- How it fixes it --></li>
+    </ul>
+  </div>
+</section>
+
+
+<!-- ══════ 05 — THE STAKES ══════ -->
+<section class="section">
+  <div class="col">
+    <div class="ch r">
+      <span class="ch-num">05 / THE <!-- YEAR/SCALE --> PROBLEM</span>
+      <div class="ch-rule"></div>
+      <span class="ch-end">PROJECTION</span>
+    </div>
+
+    <!-- SLOT: Contrast heading — now vs then -->
+    <h2 class="sh r"><!-- "Right now you're [X]." --><br><!-- "In [year/future], <em>you'll be [Y].</em>" --></h2>
+
+    <!-- SLOT: Stat block — the before/after number -->
+    <div class="stat r">
+      <div class="stat-num"><!-- BEFORE --> <span class="arrow">→</span> <!-- AFTER --></div>
+      <p class="stat-label">// <!-- WHAT IT MEASURES --> &nbsp;·&nbsp; <!-- TIMEFRAME --></p>
+    </div>
+
+    <!-- SLOT: 5-6 bullets — what changes at scale -->
+    <ul class="bullets r d1">
+      <li><!-- Today's reality --></li>
+      <li><!-- Future reality --></li>
+      <li><!-- Why that changes everything about X --></li>
+      <li><!-- Why that changes everything about Y --></li>
+      <li><!-- Why that changes everything about Z --></li>
+      <li><!-- "[X] bakes all [N] in. That's why [company] built it." --></li>
+    </ul>
+
+    <!-- SLOT: Scale infographic -->
+    <div class="img-block r d2">
+      <div class="img-frame"><div class="img-inner">
+        <img src="<!-- 05_scale_projection.png -->" alt="<!-- alt -->">
+      </div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════ 06 — THE SIGNAL ══════ -->
+<section class="section">
+  <div class="col">
+    <div class="ch r">
+      <span class="ch-num">06 / THE SIGNAL</span>
+      <div class="ch-rule"></div>
+      <span class="ch-end">CONCLUSION</span>
+    </div>
+
+    <!-- SLOT: Heading — "[Company] doesn't build things for fun." -->
+    <h2 class="sh r"><span class="cy"><!-- Company --></span> <!-- doesn't build things for fun / [equivalent statement]. --></h2>
+
+    <!-- SLOT: 5-6 bullets — the strategic read, the market bet, what it means for the viewer -->
+    <ul class="bullets r">
+      <li><!-- What this launch signals about market direction --></li>
+      <li><!-- What they're betting on --></li>
+      <li><!-- Why a [language/platform/tool] enforces rather than suggests --></li>
+      <li><!-- "The people who understand this layer now will be [X] ahead when it lands." --></li>
+      <li><!-- "You don't need to [do technical thing]. You need to understand the direction." --></li>
+      <li><!-- Skills/tools they're building + [Name] connection --></li>
+    </ul>
+
+    <!-- SLOT: Signal/bet infographic -->
+    <div class="img-block r d1">
+      <div class="img-frame"><div class="img-inner">
+        <img src="<!-- 06_signal_bet.png -->" alt="<!-- alt -->">
+      </div></div>
+    </div>
+
+    <!-- SLOT: Closing callout — 3 lines, final line all-caps + large -->
+    <div class="statement r d2" style="margin-top: 3.5rem; text-align: center;">
+      <p class="statement-line" style="font-size: clamp(1rem, 1.8vw, 1.6rem); line-height: 1.5;">
+        <!-- "[Action they're taking] are the foundation." --><br><br>
+        <!-- "[Thing] is the ceiling." --><br><br>
+        <span class="accent" style="font-size: clamp(1.1rem, 2.2vw, 1.9rem); text-transform: uppercase; letter-spacing: 0.05em;"><!-- IDENTITY STATEMENT. YOU ARE EARLY. --></span>
+      </p>
+    </div>
+
+    <!-- SLOT: Update source, year, and URL -->
+    <div class="sig r d2">
+      END_TRANSMISSION &nbsp;·&nbsp; <!-- SOURCE --> &nbsp;·&nbsp; <!-- YEAR --> &nbsp;·&nbsp; <!-- URL -->
+    </div>
+  </div>
+</section>
+
+
+<script>
+  /* ── Progress bar ── */
+  const bar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    bar.style.height = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100) + '%';
+  }, { passive: true });
+
+  /* ── Scroll reveals — IntersectionObserver + fallback for already-visible elements ── */
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+  }, { threshold: 0.01 });
+  document.querySelectorAll('.r').forEach(el => obs.observe(el));
+  function revealVisible() {
+    document.querySelectorAll('.r:not(.in)').forEach(el => {
+      if (el.getBoundingClientRect().top < window.innerHeight + 100) el.classList.add('in');
+    });
+  }
+  setTimeout(revealVisible, 300);
+  window.addEventListener('scroll', revealVisible, { passive: true });
+
+  /* ── Section connectors with staggered ink drip ── */
+  (function() {
+    const sections = [...document.querySelectorAll('.section')];
+    sections.forEach((sec, i) => {
+      if (i === sections.length - 1) return;
+      const conn = document.createElement('div');
+      conn.className = 'connector';
+      const line = document.createElement('div');
+      line.className = 'connector-line';
+      line.style.setProperty('--drip-delay', (i * 0.4).toFixed(1));
+      conn.appendChild(line);
+      sec.after(conn);
+    });
+  })();
+
+  /* ── Image parallax ── */
+  (function() {
+    const imgs = document.querySelectorAll('.img-frame img');
+    function apply() { imgs.forEach(img => { const rect=img.closest('.img-block').getBoundingClientRect(); img.style.transform=`translateY(${(window.innerHeight/2-(rect.top+rect.height/2))*0.035}px)`; }); }
+    window.addEventListener('scroll', apply, { passive: true }); apply();
+  })();
+</script>
+
+</body>
+</html>

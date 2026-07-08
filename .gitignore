@@ -1,0 +1,22 @@
+# Secrets & sessions — never commit
+.env
+*.env
+**/*session*.json
+**/.gumroad-session.json
+**/.chrome-profile/
+
+# Working / output dirs
+output/
+*-workspace/
+**/output/
+
+# Junk
+.DS_Store
+__pycache__/
+*.pyc
+node_modules/
+*.zip
+
+# Large generated media (skills generate these locally)
+*.mp4
+*.mov

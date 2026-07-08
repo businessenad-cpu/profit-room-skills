@@ -1,0 +1,30 @@
+{
+  "subreddits": [
+    {
+      "name": "entrepreneur",
+      "display": "r/Entrepreneur",
+      "description": "Entrepreneurship, business building, founder stories"
+    },
+    {
+      "name": "SaaS",
+      "display": "r/SaaS",
+      "description": "SaaS founders, product launches, growth"
+    },
+    {
+      "name": "n8n",
+      "display": "r/n8n",
+      "description": "Workflow automation, n8n builds and use cases"
+    },
+    {
+      "name": "ChatGPT",
+      "display": "r/ChatGPT",
+      "description": "ChatGPT use cases, prompts, AI discussion"
+    }
+  ],
+  "defaults": {
+    "sort": "top",
+    "time": "week",
+    "limit": 30,
+    "show_per_subreddit": 10
+  }
+}

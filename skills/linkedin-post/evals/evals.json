@@ -1,0 +1,134 @@
+{
+  "skill_name": "linkedin-post",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write a LinkedIn post about how I use Claude Code to build AI tools 10x faster than hiring developers.",
+      "expected_output": "A LinkedIn post with a strong results/numbers hook, short punchy paragraphs, arrow lists, and a CTA with a keyword. Should read in the user's own brand voice — confident, first-person, specific numbers.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "hook_contains_number",
+          "description": "The first line of the post contains a specific number, dollar amount, percentage, or timeframe",
+          "type": "qualitative"
+        },
+        {
+          "name": "hook_is_short",
+          "description": "The hook (first 1-2 lines) is concise — not more than 15 words",
+          "type": "qualitative"
+        },
+        {
+          "name": "uses_arrow_formatting",
+          "description": "The post uses → or 𐄂 for bullet/list items rather than plain dashes or dots",
+          "type": "qualitative"
+        },
+        {
+          "name": "has_keyword_cta",
+          "description": "The post contains a 'Comment [KEYWORD]' call to action with a specific word in quotes or caps",
+          "type": "qualitative"
+        },
+        {
+          "name": "short_paragraphs",
+          "description": "All paragraphs are 3 sentences or fewer — no walls of text",
+          "type": "qualitative"
+        },
+        {
+          "name": "first_person_voice",
+          "description": "The post is written in first person (I, my, I've, I did) rather than second person (you should, here's how you)",
+          "type": "qualitative"
+        },
+        {
+          "name": "no_corporate_jargon",
+          "description": "The post avoids phrases like 'leverage', 'actionable insights', 'game-changer', 'synergies', 'thought leader'",
+          "type": "qualitative"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Write a LinkedIn post about my new AI content system that helped me grow from 0 to 50k followers in 12 months without spending on ads.",
+      "expected_output": "Post opens with the big result (50k followers, 12 months, no ads). Uses contrarian 'here's what I didn't do' or transformation structure. CTA with keyword, PS line at end.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "hook_contains_number",
+          "description": "The first line of the post contains a specific number, dollar amount, percentage, or timeframe",
+          "type": "qualitative"
+        },
+        {
+          "name": "hook_is_short",
+          "description": "The hook (first 1-2 lines) is concise — not more than 15 words",
+          "type": "qualitative"
+        },
+        {
+          "name": "uses_arrow_formatting",
+          "description": "The post uses → or 𐄂 for bullet/list items rather than plain dashes or dots",
+          "type": "qualitative"
+        },
+        {
+          "name": "has_keyword_cta",
+          "description": "The post contains a 'Comment [KEYWORD]' call to action with a specific word in quotes or caps",
+          "type": "qualitative"
+        },
+        {
+          "name": "short_paragraphs",
+          "description": "All paragraphs are 3 sentences or fewer — no walls of text",
+          "type": "qualitative"
+        },
+        {
+          "name": "first_person_voice",
+          "description": "The post is written in first person (I, my, I've, I did) rather than second person (you should, here's how you)",
+          "type": "qualitative"
+        },
+        {
+          "name": "no_corporate_jargon",
+          "description": "The post avoids phrases like 'leverage', 'actionable insights', 'game-changer', 'synergies', 'thought leader'",
+          "type": "qualitative"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Write a LinkedIn post giving away my prompt library — 47 prompts I use to run my business with AI.",
+      "expected_output": "Hook leads with a result or transformation. Body builds desire. Numbered steps for access (like/comment). CTA keyword in quotes or caps. PS line at end.",
+      "files": [],
+      "assertions": [
+        {
+          "name": "hook_contains_number",
+          "description": "The first line of the post contains a specific number, dollar amount, percentage, or timeframe",
+          "type": "qualitative"
+        },
+        {
+          "name": "hook_is_short",
+          "description": "The hook (first 1-2 lines) is concise — not more than 15 words",
+          "type": "qualitative"
+        },
+        {
+          "name": "uses_arrow_formatting",
+          "description": "The post uses → or 𐄂 for bullet/list items rather than plain dashes or dots",
+          "type": "qualitative"
+        },
+        {
+          "name": "has_keyword_cta",
+          "description": "The post contains a 'Comment [KEYWORD]' call to action with a specific word in quotes or caps",
+          "type": "qualitative"
+        },
+        {
+          "name": "short_paragraphs",
+          "description": "All paragraphs are 3 sentences or fewer — no walls of text",
+          "type": "qualitative"
+        },
+        {
+          "name": "first_person_voice",
+          "description": "The post is written in first person (I, my, I've, I did) rather than second person (you should, here's how you)",
+          "type": "qualitative"
+        },
+        {
+          "name": "no_corporate_jargon",
+          "description": "The post avoids phrases like 'leverage', 'actionable insights', 'game-changer', 'synergies', 'thought leader'",
+          "type": "qualitative"
+        }
+      ]
+    }
+  ]
+}
