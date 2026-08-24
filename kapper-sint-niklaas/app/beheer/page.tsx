@@ -20,6 +20,12 @@ const DAGEN = [
 ];
 
 type HourRow = { open: string; close: string };
+type ChatMsg = { role: "user" | "assistant"; text: string };
+
+const CHAT_WELCOME: ChatMsg = {
+  role: "assistant",
+  text: "Hey! Zeg gewoon wat je wil veranderen aan de site — bv. “zet skin fade op €25”, “maandag zijn we gesloten”, “voeg een dienst kleuren toe voor dames” of “maak de tekst op de homepagina wat losser”. Ik voer het meteen uit.",
+};
 
 const inputCls =
   "w-full rounded-[4px] border border-gold/30 bg-surface-2 px-3 py-2 text-sm text-bone placeholder:text-muted focus:border-olive-bright focus:outline-none";
@@ -48,6 +54,9 @@ export default function BeheerPage() {
   const [prices, setPrices] = useState<Record<string, string>>(
     Object.fromEntries(services.map((s) => [s.slug, ""])),
   );
+  const [chat, setChat] = useState<ChatMsg[]>([CHAT_WELCOME]);
+  const [chatInput, setChatInput] = useState("");
+  const [chatBusy, setChatBusy] = useState(false);
 
   // sessie onthouden zolang de tab open is
   useEffect(() => {
@@ -124,6 +133,47 @@ export default function BeheerPage() {
     setLoggedIn(true);
   }
 
+  async function sendChat() {
+    const text = chatInput.trim();
+    if (!text || chatBusy) return;
+    const next: ChatMsg[] = [...chat, { role: "user", text }];
+    setChat(next);
+    setChatInput("");
+    setChatBusy(true);
+    try {
+      const res = await fetch("/api/assistent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username,
+          password,
+          // welkomstbericht niet meesturen, alleen echte conversatie
+          messages: next.filter((m) => m !== CHAT_WELCOME),
+        }),
+      });
+      const body = await res.json();
+      const applied: string[] = Array.isArray(body.applied) ? body.applied : [];
+      const suffix =
+        body.ok && applied.length > 0
+          ? "\n\n✅ Aangepast — herlaad de site om het live te zien."
+          : "";
+      setChat((c) => [
+        ...c,
+        {
+          role: "assistant",
+          text: (body.reply ?? body.error ?? "Er ging iets mis — probeer opnieuw.") + suffix,
+        },
+      ]);
+    } catch {
+      setChat((c) => [
+        ...c,
+        { role: "assistant", text: "Netwerkfout — probeer het nog eens." },
+      ]);
+    } finally {
+      setChatBusy(false);
+    }
+  }
+
   async function doSave() {
     setBusy(true);
     setMessage(null);
@@ -184,11 +234,64 @@ export default function BeheerPage() {
         Beheer — hey <span className="text-olive-bright">{username}</span> 👋
       </h1>
       <p className="mt-2 text-sm text-sand">
-        Vul in wat je weet en klik onderaan op opslaan. Lege velden laten de
-        site gewoon &ldquo;volgt nog&rdquo; tonen.
+        Zeg tegen de assistent wat je wil veranderen, of vul het formulier
+        eronder handmatig in.
       </p>
 
-      <h2 className="display mt-10 text-lg text-olive-bright">Contact</h2>
+      {/* ── AI-assistent ─────────────────────────────────────────────── */}
+      <h2 className="display mt-10 text-lg text-olive-bright">
+        ✨ Assistent — zeg het gewoon
+      </h2>
+      <div className="mt-4 border border-gold/30 bg-surface">
+        <div className="max-h-96 space-y-3 overflow-y-auto p-4">
+          {chat.map((m, i) => (
+            <div
+              key={i}
+              className={
+                m.role === "user"
+                  ? "ml-8 rounded-[4px] bg-olive-deep px-3 py-2 text-sm text-bone"
+                  : "mr-8 rounded-[4px] bg-surface-2 px-3 py-2 text-sm text-sand"
+              }
+            >
+              <p className="whitespace-pre-line">{m.text}</p>
+            </div>
+          ))}
+          {chatBusy && (
+            <p className="mr-8 px-3 py-2 text-sm text-muted">
+              ✂︎ Bezig met knippen…
+            </p>
+          )}
+        </div>
+        <form
+          className="flex gap-2 border-t border-gold/20 p-3"
+          onSubmit={(e) => {
+            e.preventDefault();
+            void sendChat();
+          }}
+        >
+          <input
+            aria-label="Bericht aan de assistent"
+            className={inputCls}
+            placeholder="Bv. zet skin fade op €25 en maandag gesloten"
+            value={chatInput}
+            onChange={(e) => setChatInput(e.target.value)}
+            disabled={chatBusy}
+          />
+          <button
+            type="submit"
+            disabled={chatBusy || !chatInput.trim()}
+            className="display shrink-0 rounded-[4px] bg-olive px-5 py-2 text-sm text-ink transition-colors hover:bg-olive-bright disabled:opacity-50"
+          >
+            Stuur
+          </button>
+        </form>
+      </div>
+      <p className="mt-2 text-xs text-muted">
+        De assistent past teksten, prijzen, uren, diensten en links aan.
+        Foto&apos;s, kleuren en lay-out lopen via de developer.
+      </p>
+
+      <h2 className="display mt-12 text-lg text-olive-bright">Contact</h2>
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         {(
           [

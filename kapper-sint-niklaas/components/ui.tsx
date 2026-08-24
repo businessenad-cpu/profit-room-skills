@@ -17,13 +17,7 @@ export function StickyCta() {
 }
 
 /** Trage marquee: "Fresh voor het weekend". */
-export function Marquee() {
-  const items = [
-    "Fresh voor het weekend",
-    "Vr & za ruime uren",
-    "Ankerstraat 61B, Sint-Niklaas",
-    "Fades · Lineups · Baard",
-  ];
+export function Marquee({ items }: { items: string[] }) {
   const row = items.map((t, i) => (
     <span key={i} className="mx-6 inline-flex items-center gap-6">
       {t} <span aria-hidden className="text-gold">{"✂︎"}</span>

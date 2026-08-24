@@ -13,7 +13,7 @@ export async function Footer() {
           أهلاً
         </p>
         <p className="mt-2 max-w-md text-sand">
-          Welkom. {site.tagline}
+          Welkom. {content.tagline}
         </p>
 
         <div className="mt-8 grid gap-8 sm:grid-cols-3">

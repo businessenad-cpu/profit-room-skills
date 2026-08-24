@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
 import { getContent } from "@/lib/content";
+import { Accent } from "@/components/Accent";
 import { HeroGeo, StarField, TatreezBand } from "@/components/patterns";
 import { BookCta, Marquee } from "@/components/ui";
 import { Gallery } from "@/components/Gallery";
@@ -32,13 +33,10 @@ export default async function Home() {
               أهلاً
             </p>
             <h1 className="display mt-4 text-4xl sm:text-6xl lg:text-7xl">
-              Kom binnen.
-              <br />
-              Ga <span className="text-olive-bright">fresh</span> naar buiten.
+              <Accent text={content.heroTitle} />
             </h1>
             <p className="mt-5 max-w-md text-lg text-sand">
-              Fades, lineups en baard. {site.address.street},{" "}
-              {site.address.city}.
+              {content.heroSub} {site.address.street}, {site.address.city}.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
@@ -69,7 +67,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <Marquee />
+      <Marquee items={content.marquee} />
 
       {/* ── Top-diensten ─────────────────────────────────────────────── */}
       <section className="mx-auto max-w-6xl px-4 py-16">
@@ -110,10 +108,8 @@ export default async function Home() {
           <h2 className="display text-2xl sm:text-4xl">
             Fresh voor het <span className="text-olive-bright">weekend</span>
           </h2>
-          <p className="mt-4 text-sand">
-            Vrijdag en zaterdag zijn druk. Boek op tijd, dan zit je goed —
-            ruime uren op het einde van de week, zodat je strak het weekend
-            in gaat.
+          <p className="mt-4 whitespace-pre-line text-sand">
+            {content.weekendText}
           </p>
           <Link
             href="/boeken"

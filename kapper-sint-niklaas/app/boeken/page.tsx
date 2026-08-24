@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { site } from "@/lib/site";
 import { getContent } from "@/lib/content";
 import { TatreezBand } from "@/components/patterns";
 
@@ -47,7 +46,7 @@ export default async function BoekenPage() {
               ⚠ Online boeken wordt aangesloten
             </h2>
             <p className="mt-3 max-w-lg text-sm text-sand">
-              {site.bookingFallbackNote}
+              {content.bookingNote}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               {content.whatsapp ? (

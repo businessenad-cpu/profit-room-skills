@@ -62,23 +62,10 @@ export default async function OverPage() {
           Waar ik voor sta
         </h2>
         <div className="mt-8 grid gap-px border border-gold/20 bg-gold/20 sm:grid-cols-3">
-          {[
-            {
-              t: "Strak werk",
-              d: "Een fade is pas af als de lineup klopt. Ik werk door tot het goed zit.",
-            },
-            {
-              t: "Geen haast, geen wachtrij",
-              d: "Op afspraak. Jouw stoel, jouw moment — niet nummer 14 in de rij.",
-            },
-            {
-              t: "Binnenkomen is thuiskomen",
-              d: "Goeie muziek, goei babbel. Je komt voor de cut, je blijft voor de sfeer.",
-            },
-          ].map((v) => (
-            <div key={v.t} className="bg-surface p-6">
-              <h3 className="display text-base">{v.t}</h3>
-              <p className="mt-2 text-sm text-sand">{v.d}</p>
+          {content.uspCards.map((v) => (
+            <div key={v.title} className="bg-surface p-6">
+              <h3 className="display text-base">{v.title}</h3>
+              <p className="mt-2 text-sm text-sand">{v.text}</p>
             </div>
           ))}
         </div>
