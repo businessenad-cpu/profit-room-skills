@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+/* ── FRESH design tokens (zie DESIGN.md) ─────────────────────────────── */
+@theme {
+  --color-ink: #0e0e0b;
+  --color-surface: #181812;
+  --color-surface-2: #22221a;
+  --color-olive: #7a8b3f;
+  --color-olive-bright: #a6bd5a;
+  --color-olive-deep: #3e4722;
+  --color-sand: #d9c9a3;
+  --color-gold: #c6a250;
+  --color-bone: #f4f1e6;
+  --color-muted: #8a8878;
+
+  --font-display: var(--font-archivo);
+  --font-sans: var(--font-inter);
+  --font-arabic: var(--font-amiri);
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-ink);
+  color: var(--color-bone);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* De Stijl-blokletters: Archivo op 125% breedte-as */
+.display {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-variation-settings: "wdth" 125;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.95;
+  text-wrap: balance;
+}
+
+.arabic {
+  font-family: var(--font-arabic), serif;
+  direction: rtl;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Marquee ─────────────────────────────────────────────────────────── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: marquee 40s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* ── Hero placeholder-gradient (tot er echte video is) ───────────────── */
+@keyframes heroShift {
+  0%, 100% { transform: translate3d(-4%, -2%, 0) scale(1.05); }
+  50% { transform: translate3d(4%, 2%, 0) scale(1.12); }
+}
+.hero-shift {
+  animation: heroShift 18s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-shift { animation: none; }
+}
+
+/* Focus zichtbaar en on-brand */
+:focus-visible {
+  outline: 2px solid var(--color-olive-bright);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--color-olive-deep);
+  color: var(--color-bone);
+}
