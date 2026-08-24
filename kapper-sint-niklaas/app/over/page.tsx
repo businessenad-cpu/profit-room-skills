@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getContent } from "@/lib/content";
 import { StarField, TatreezBand } from "@/components/patterns";
 import { BookCta, PhotoPlaceholder } from "@/components/ui";
 
@@ -8,7 +9,8 @@ export const metadata: Metadata = {
     "Het verhaal achter Kapper Sint Niklaas: vakmanschap, Palestijnse en Nederlandse roots, en een zaak waar je graag binnenloopt.",
 };
 
-export default function OverPage() {
+export default async function OverPage() {
+  const { content } = await getContent();
   return (
     <>
       <section className="relative overflow-hidden">
@@ -23,20 +25,26 @@ export default function OverPage() {
               <br />
               Mensen zijn m&apos;n <span className="text-olive-bright">ding.</span>
             </h1>
-            {/* PLACEHOLDER-copy: eigen verhaal van de eigenaar komt hier. */}
-            <div className="mt-6 max-w-lg space-y-4 text-sand">
-              <p>
-                ⚠ <em>Placeholder — dit stuk schrijf je zelf of we schrijven
-                het samen:</em>
+            {content.overStory ? (
+              <p className="mt-6 max-w-lg whitespace-pre-line text-sand">
+                {content.overStory}
               </p>
-              <p className="border-l-2 border-gold/40 pl-4 text-muted">
-                Wie je bent, hoe je bij het vak kwam, wat je roots voor je
-                betekenen (Palestijns én Nederlands), waarom je in
-                Sint-Niklaas je eigen zaak opende, en wat een klant bij jou
-                mag verwachten. Kort, direct, jij-vorm — zoals de rest van de
-                site.
-              </p>
-            </div>
+            ) : (
+              /* PLACEHOLDER-copy tot het eigen verhaal via /beheer is ingevuld. */
+              <div className="mt-6 max-w-lg space-y-4 text-sand">
+                <p>
+                  ⚠ <em>Placeholder — dit stuk schrijf je zelf (kan via de
+                  Beheer-pagina) of we schrijven het samen:</em>
+                </p>
+                <p className="border-l-2 border-gold/40 pl-4 text-muted">
+                  Wie je bent, hoe je bij het vak kwam, wat je roots voor je
+                  betekenen (Palestijns én Nederlands), waarom je in
+                  Sint-Niklaas je eigen zaak opende, en wat een klant bij jou
+                  mag verwachten. Kort, direct, jij-vorm — zoals de rest van de
+                  site.
+                </p>
+              </div>
+            )}
           </div>
           <div className="grid gap-4 lg:col-span-5">
             <PhotoPlaceholder label="Portret — jij in de zaak" className="min-h-[16rem]" />

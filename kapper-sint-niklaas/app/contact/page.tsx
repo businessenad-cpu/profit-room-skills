@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { site } from "@/lib/site";
+import { getContent } from "@/lib/content";
 import { TatreezBand } from "@/components/patterns";
 import { BookCta } from "@/components/ui";
 
@@ -13,7 +14,8 @@ const mapsQuery = encodeURIComponent(
   `${site.address.street}, ${site.address.postalCode} ${site.address.city}`,
 );
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const { content } = await getContent();
   return (
     <>
       <section className="mx-auto max-w-6xl px-4 py-16">
@@ -41,9 +43,9 @@ export default function ContactPage() {
               Direct contact
             </h2>
             <div className="mt-3 flex flex-wrap gap-3">
-              {site.whatsapp ? (
+              {content.whatsapp ? (
                 <a
-                  href={`https://wa.me/${site.whatsapp}`}
+                  href={`https://wa.me/${content.whatsapp}`}
                   rel="noopener"
                   className="display rounded-[4px] bg-olive px-5 py-3 text-sm text-ink transition-colors hover:bg-olive-bright"
                 >
@@ -54,12 +56,12 @@ export default function ContactPage() {
                   WhatsApp volgt
                 </span>
               )}
-              {site.phone ? (
+              {content.phone ? (
                 <a
-                  href={`tel:${site.phone.replace(/\s/g, "")}`}
+                  href={`tel:${content.phone.replace(/\s/g, "")}`}
                   className="display rounded-[4px] border border-gold/40 px-5 py-3 text-sm text-sand transition-colors hover:border-olive-bright hover:text-bone"
                 >
-                  Bel {site.phone}
+                  Bel {content.phone}
                 </a>
               ) : (
                 <span className="display rounded-[4px] border border-dashed border-gold/40 px-5 py-3 text-sm text-muted">
@@ -72,7 +74,7 @@ export default function ContactPage() {
               Openingsuren
             </h2>
             <ul className="mt-3 grid gap-px border border-gold/20 bg-gold/20">
-              {site.hours.map((h) => (
+              {content.hours.map((h) => (
                 <li
                   key={h.day}
                   className="flex items-center justify-between bg-surface px-4 py-2.5 text-sm"
@@ -84,7 +86,7 @@ export default function ContactPage() {
                 </li>
               ))}
             </ul>
-            {site.hoursAreDraft && (
+            {content.hoursAreDraft && (
               <p className="mt-2 text-xs text-muted">
                 ⚠ Voorlopige uren — worden bevestigd door de zaak.
               </p>

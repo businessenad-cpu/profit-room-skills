@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { site } from "@/lib/site";
+import { getContent } from "@/lib/content";
 import { TatreezBand } from "@/components/patterns";
 import { BookCta } from "@/components/ui";
 
@@ -9,7 +9,8 @@ export const metadata: Metadata = {
     "Wat klanten zeggen over Kapper Sint Niklaas. Nieuw geopend — jouw review helpt de zaak groeien.",
 };
 
-export default function ReviewsPage() {
+export default async function ReviewsPage() {
+  const { content } = await getContent();
   return (
     <>
       <section className="mx-auto max-w-6xl px-4 py-16">
@@ -29,9 +30,9 @@ export default function ReviewsPage() {
             review op Google helpt enorm.
           </p>
           <div className="mt-6">
-            {site.googleBusinessReviewUrl ? (
+            {content.googleBusinessReviewUrl ? (
               <a
-                href={site.googleBusinessReviewUrl}
+                href={content.googleBusinessReviewUrl}
                 rel="noopener"
                 className="display inline-block rounded-[4px] bg-olive px-6 py-3 text-sm text-ink transition-colors hover:bg-olive-bright"
               >

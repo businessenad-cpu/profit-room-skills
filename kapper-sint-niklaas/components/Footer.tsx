@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
+import { getContent } from "@/lib/content";
 import { StarField, TatreezBand } from "@/components/patterns";
 
-export function Footer() {
+export async function Footer() {
+  const { content } = await getContent();
   return (
     <footer className="relative mt-20 overflow-hidden border-t border-gold/20 bg-surface">
       <StarField />
@@ -29,21 +31,22 @@ export function Footer() {
               <li><Link href="/boeken" className="hover:text-bone">Boek je cut</Link></li>
               <li><Link href="/prijzen" className="hover:text-bone">Cuts & prijzen</Link></li>
               <li><Link href="/contact" className="hover:text-bone">Contact & route</Link></li>
+              <li><Link href="/beheer" className="text-muted hover:text-bone">Beheer</Link></li>
             </ul>
           </div>
           <div>
             <h2 className="display text-sm text-olive-bright">Volg mij</h2>
             <ul className="mt-2 grid gap-1 text-sm text-sand">
               <li>
-                {site.instagram ? (
-                  <a href={`https://www.instagram.com/${site.instagram}/`} rel="noopener" className="hover:text-bone">Instagram</a>
+                {content.instagram ? (
+                  <a href={`https://www.instagram.com/${content.instagram}/`} rel="noopener" className="hover:text-bone">Instagram</a>
                 ) : (
                   <span className="text-muted">Instagram — handle volgt</span>
                 )}
               </li>
               <li>
-                {site.tiktok ? (
-                  <a href={`https://www.tiktok.com/@${site.tiktok}`} rel="noopener" className="hover:text-bone">TikTok</a>
+                {content.tiktok ? (
+                  <a href={`https://www.tiktok.com/@${content.tiktok}`} rel="noopener" className="hover:text-bone">TikTok</a>
                 ) : (
                   <span className="text-muted">TikTok — handle volgt</span>
                 )}

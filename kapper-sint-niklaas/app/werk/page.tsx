@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { site } from "@/lib/site";
+import { getContent } from "@/lib/content";
 import { TatreezBand } from "@/components/patterns";
 import { BookCta } from "@/components/ui";
 import { Gallery } from "@/components/Gallery";
@@ -10,7 +10,8 @@ export const metadata: Metadata = {
     "Bekijk het werk van Kapper Sint Niklaas: skin fades, lineups, baard en meer. Volg mij op Instagram en TikTok voor het nieuwste werk.",
 };
 
-export default function WerkPage() {
+export default async function WerkPage() {
+  const { content } = await getContent();
   return (
     <>
       <section className="mx-auto max-w-6xl px-4 py-16">
@@ -38,14 +39,14 @@ export default function WerkPage() {
         <div className="mt-8 grid gap-6 md:grid-cols-2">
           <div className="border border-gold/20 bg-surface p-6">
             <h3 className="display text-base">Instagram</h3>
-            {site.instagram ? (
+            {content.instagram ? (
               <blockquote
                 className="instagram-media mt-4"
-                data-instgrm-permalink={`https://www.instagram.com/${site.instagram}/`}
+                data-instgrm-permalink={`https://www.instagram.com/${content.instagram}/`}
                 data-instgrm-version="14"
               >
-                <a href={`https://www.instagram.com/${site.instagram}/`} rel="noopener">
-                  @{site.instagram} op Instagram
+                <a href={`https://www.instagram.com/${content.instagram}/`} rel="noopener">
+                  @{content.instagram} op Instagram
                 </a>
                 {/* Officieel embed-script laadt client-side */}
                 <script async src="https://www.instagram.com/embed.js" />
@@ -60,15 +61,15 @@ export default function WerkPage() {
           </div>
           <div className="border border-gold/20 bg-surface p-6">
             <h3 className="display text-base">TikTok</h3>
-            {site.tiktok ? (
+            {content.tiktok ? (
               <blockquote
                 className="tiktok-embed mt-4"
-                cite={`https://www.tiktok.com/@${site.tiktok}`}
-                data-unique-id={site.tiktok}
+                cite={`https://www.tiktok.com/@${content.tiktok}`}
+                data-unique-id={content.tiktok}
                 data-embed-type="creator"
               >
-                <a href={`https://www.tiktok.com/@${site.tiktok}`} rel="noopener">
-                  @{site.tiktok} op TikTok
+                <a href={`https://www.tiktok.com/@${content.tiktok}`} rel="noopener">
+                  @{content.tiktok} op TikTok
                 </a>
                 <script async src="https://www.tiktok.com/embed.js" />
               </blockquote>

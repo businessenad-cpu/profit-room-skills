@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { site } from "@/lib/site";
+import { getContent } from "@/lib/content";
 
 /** Sticky "Boek nu"-balk onderaan op mobiel — altijd zichtbaar. */
 export function StickyCta() {
@@ -63,11 +64,12 @@ export function PhotoPlaceholder({
 }
 
 /** Grote afsluitende call-to-action onder elke pagina. */
-export function BookCta({
+export async function BookCta({
   title = "Klaar voor een fresh cut?",
 }: {
   title?: string;
 }) {
+  const { content } = await getContent();
   return (
     <section className="mx-auto max-w-6xl px-4 py-16 text-center">
       <h2 className="display text-3xl sm:text-5xl">{title}</h2>
@@ -78,9 +80,9 @@ export function BookCta({
         >
           Boek je cut
         </Link>
-        {site.whatsapp ? (
+        {content.whatsapp ? (
           <a
-            href={`https://wa.me/${site.whatsapp}`}
+            href={`https://wa.me/${content.whatsapp}`}
             rel="noopener"
             className="display rounded-[4px] border border-gold/40 px-6 py-3 text-sm text-sand transition-colors hover:border-olive-bright hover:text-bone"
           >

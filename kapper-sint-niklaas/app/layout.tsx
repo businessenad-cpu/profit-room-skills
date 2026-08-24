@@ -6,6 +6,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { StickyCta } from "@/components/ui";
 import { site } from "@/lib/site";
+import { getContent } from "@/lib/content";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -37,7 +38,18 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-function JsonLd() {
+const schemaDays: Record<string, string> = {
+  Maandag: "Monday",
+  Dinsdag: "Tuesday",
+  Woensdag: "Wednesday",
+  Donderdag: "Thursday",
+  Vrijdag: "Friday",
+  Zaterdag: "Saturday",
+  Zondag: "Sunday",
+};
+
+async function JsonLd() {
+  const { content } = await getContent();
   const data = {
     "@context": "https://schema.org",
     "@type": ["HairSalon", "LocalBusiness"],
@@ -57,7 +69,15 @@ function JsonLd() {
       latitude: site.geo.lat,
       longitude: site.geo.lng,
     },
-    ...(site.phone ? { telephone: site.phone } : {}),
+    ...(content.phone ? { telephone: content.phone } : {}),
+    openingHoursSpecification: content.hours
+      .filter((h) => h.open && h.close)
+      .map((h) => ({
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: schemaDays[h.day] ?? h.day,
+        opens: h.open,
+        closes: h.close,
+      })),
     priceRange: "€€",
     currenciesAccepted: "EUR",
   };

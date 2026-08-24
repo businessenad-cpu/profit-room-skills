@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { services, serviceCategories } from "@/lib/site";
+import { serviceCategories } from "@/lib/site";
+import { getContent } from "@/lib/content";
 import { TatreezBand } from "@/components/patterns";
 import { BookCta } from "@/components/ui";
 
@@ -10,7 +11,8 @@ export const metadata: Metadata = {
     "Fades, lineups, baard en meer bij Kapper Sint Niklaas. Wat je ziet is wat je betaalt — boek je cut online.",
 };
 
-export default function PrijzenPage() {
+export default async function PrijzenPage() {
+  const { services } = await getContent();
   const hasMissingPrices = services.some((s) => s.price === null);
 
   return (

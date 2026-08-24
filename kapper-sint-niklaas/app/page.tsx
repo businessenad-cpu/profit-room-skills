@@ -1,10 +1,12 @@
 import Link from "next/link";
-import { site, services } from "@/lib/site";
+import { site } from "@/lib/site";
+import { getContent } from "@/lib/content";
 import { HeroGeo, StarField, TatreezBand } from "@/components/patterns";
 import { BookCta, Marquee } from "@/components/ui";
 import { Gallery } from "@/components/Gallery";
 
-export default function Home() {
+export default async function Home() {
+  const { content, services } = await getContent();
   const topServices = services.filter((s) =>
     ["skin-fade", "cut-baard", "lineup"].includes(s.slug),
   );
@@ -122,7 +124,7 @@ export default function Home() {
         </div>
         <div className="lg:col-span-7">
           <ul className="grid gap-px border border-gold/20 bg-gold/20">
-            {site.hours
+            {content.hours
               .filter((h) => ["Vrijdag", "Zaterdag"].includes(h.day))
               .map((h) => (
                 <li
@@ -136,7 +138,7 @@ export default function Home() {
                 </li>
               ))}
           </ul>
-          {site.hoursAreDraft && (
+          {content.hoursAreDraft && (
             <p className="mt-2 text-xs text-muted">
               ⚠ Voorlopige uren — worden bevestigd door de zaak.
             </p>

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { site } from "@/lib/site";
+import { getContent } from "@/lib/content";
 import { TatreezBand } from "@/components/patterns";
 
 export const metadata: Metadata = {
@@ -9,7 +10,8 @@ export const metadata: Metadata = {
     "Boek online je afspraak bij Kapper Sint Niklaas — Ankerstraat 61B. Kies je cut, kies je moment, klaar.",
 };
 
-export default function BoekenPage() {
+export default async function BoekenPage() {
+  const { content } = await getContent();
   return (
     <section className="mx-auto max-w-6xl px-4 py-16">
       <h1 className="display text-3xl sm:text-5xl">
@@ -20,18 +22,18 @@ export default function BoekenPage() {
       </p>
 
       <div className="mt-10">
-        {site.freshaBookingUrl ? (
+        {content.freshaBookingUrl ? (
           <>
             {/* Officiële Fresha-boekingslink — embed via iframe op eigen pagina */}
             <iframe
-              src={site.freshaBookingUrl}
+              src={content.freshaBookingUrl}
               title="Online boeken via Fresha"
               className="h-[80vh] w-full rounded-[4px] border border-gold/20 bg-surface"
             />
             <p className="mt-3 text-xs text-muted">
               Opent het niet?{" "}
               <a
-                href={site.freshaBookingUrl}
+                href={content.freshaBookingUrl}
                 rel="noopener"
                 className="text-olive-bright hover:text-bone"
               >
@@ -48,9 +50,9 @@ export default function BoekenPage() {
               {site.bookingFallbackNote}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              {site.whatsapp ? (
+              {content.whatsapp ? (
                 <a
-                  href={`https://wa.me/${site.whatsapp}?text=${encodeURIComponent("Hey! Ik wil graag een afspraak boeken.")}`}
+                  href={`https://wa.me/${content.whatsapp}?text=${encodeURIComponent("Hey! Ik wil graag een afspraak boeken.")}`}
                   rel="noopener"
                   className="display rounded-[4px] bg-olive px-6 py-3 text-sm text-ink transition-colors hover:bg-olive-bright"
                 >
@@ -61,12 +63,12 @@ export default function BoekenPage() {
                   WhatsApp-nummer volgt
                 </span>
               )}
-              {site.phone ? (
+              {content.phone ? (
                 <a
-                  href={`tel:${site.phone.replace(/\s/g, "")}`}
+                  href={`tel:${content.phone.replace(/\s/g, "")}`}
                   className="display rounded-[4px] border border-gold/40 px-6 py-3 text-sm text-sand transition-colors hover:border-olive-bright hover:text-bone"
                 >
-                  Bel {site.phone}
+                  Bel {content.phone}
                 </a>
               ) : (
                 <span className="display rounded-[4px] border border-dashed border-gold/40 px-6 py-3 text-sm text-muted">
