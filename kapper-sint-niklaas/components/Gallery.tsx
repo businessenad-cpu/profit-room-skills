@@ -9,11 +9,13 @@ const sizeClass: Record<NonNullable<GalleryItem["size"]>, string> = {
   sm: "",
 };
 
+/* Volgorde tegelt exact in het 4-koloms grid (en in 2 kolommen op mobiel):
+   lg(2×2) + tall(1×2) + sm + sm vullen rij 1–2; wide(2×1) + sm + sm rij 3. */
 const placeholderPlan: { label: string; size: GalleryItem["size"] }[] = [
   { label: "Skin fade — zijkant", size: "lg" },
+  { label: "Fade — achterkant", size: "tall" },
   { label: "Lineup — close-up", size: "sm" },
   { label: "Baard trim — resultaat", size: "sm" },
-  { label: "Fade — achterkant", size: "tall" },
   { label: "Cut + baard combo", size: "wide" },
   { label: "Kids cut", size: "sm" },
   { label: "Fresh voor het weekend", size: "sm" },

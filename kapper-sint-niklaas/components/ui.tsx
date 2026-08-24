@@ -25,7 +25,7 @@ export function Marquee() {
   ];
   const row = items.map((t, i) => (
     <span key={i} className="mx-6 inline-flex items-center gap-6">
-      {t} <span aria-hidden className="text-gold">✂</span>
+      {t} <span aria-hidden className="text-gold">{"✂︎"}</span>
     </span>
   ));
   return (

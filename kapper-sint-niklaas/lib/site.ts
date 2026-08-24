@@ -9,7 +9,7 @@ export const site = {
   legalName: "KAPPER SINT-NIKLAAS CommV",
   vat: "BE 1036.524.380",
   tagline: "Kom binnen. Ga fresh naar buiten.",
-  url: "https://kappersintniklaas.vercel.app", // TODO: eigen domein zodra gekocht
+  url: "https://kapper-sint-niklaas.vercel.app", // TODO: eigen domein zodra gekocht
 
   address: {
     street: "Ankerstraat 61B",
